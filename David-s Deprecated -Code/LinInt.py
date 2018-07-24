@@ -14,7 +14,7 @@ RangeAxis = data[2] #RangeAxis
 #Define Parameters
 LeftInterval = -3 #Left boundary of interval of pixels to iterate over
 RightInterval = 3 #Right boundary of interval of pixels to iterate over
-StepSize = 0.005 #Step size between left and right boundaries of interval. Must be less than RightInterval-LeftInterval
+StepSize = 0.05 #Step size between left and right boundaries of interval. Must be less than RightInterval-LeftInterval
 
 #Define Useful Functions
 def actualRange(x, y): #calculutes the range form the position x to the vector y
@@ -27,6 +27,7 @@ def bin(x): #new bin function that returns floored bin
 #Iterate over pixels
 IntensityList = [] #Intializes list of intensities
 for y in arange(LeftInterval,RightInterval,StepSize): #Iterates over y-coordinates
+    print("Over y coordinate: " + str(y))
     for x in arange(LeftInterval,RightInterval,StepSize): #Iterates over x-coordinates
         intensityx = 0+0j #Initializes intensityz
         for i in range(len(PlatformX)): #Iterates over platform positions
@@ -41,8 +42,9 @@ for y in arange(LeftInterval,RightInterval,StepSize): #Iterates over y-coordinat
 #Reshapes IntensityList into proper format and plots 
 ImageSize = len(arange(LeftInterval,RightInterval,StepSize)) #Calculates proper image size
 IntensityList = np.flip(reshape(IntensityList, (ImageSize,ImageSize)),0) #Reshapes IntensityList to the right size
-plt.imshow(IntensityList, extent = (LeftInterval, RightInterval, LeftInterval, RightInterval)) #Plots the image    
-plt.show() #Shows the image in a new window for Mason
+plt.imsave('LinIntBP.png',IntensityList)
+#plt.imshow(IntensityList, extent = (LeftInterval, RightInterval, LeftInterval, RightInterval)) #Plots the image    
+#plt.show() #Shows the image in a new window for Mason
 
 '''
 #Old Code!
