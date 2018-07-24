@@ -3,13 +3,24 @@ import matplotlib.pyplot as plt
 import pickle
 import numpy as np
 from numpy import real, arange, reshape
+import csv
 
 #Load Data
-data = pickle.load(open('data.pkl','rb'))
-Platform = data[0] #Platform
-PlatformX = Platform[:, 0] #X values for Platform 
-Pulses = data[1] #Pulses
-RangeAxis = data[2] #RangeAxis
+data = pickle.load(open('../Raw_Data/data.pkl','rb'))
+Pulses = data #Pulse
+print(data)
+test = []
+with open('../Raw_Data/MC-RailSAR.csv') as csvDataFile:
+    csvReader = csv.reader(csvDataFile)
+    for row in csvReader:
+        test.append(row[6])
+print(test[1])
+    
+
+#Platform = data[0] #Platform
+#PlatformX = Platform[:, 0] #X values for Platform 
+
+#RangeAxis = data[2] #RangeAxis
 
 #Define Parameters
 LeftInterval = -3 #Left boundary of interval of pixels to iterate over
