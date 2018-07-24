@@ -132,7 +132,7 @@ def parse_args(args):
     parser = argparse.ArgumentParser(
             description='PulsON 440 radar data unpacker')
     parser.add_argument('-f', '--file', dest='file', help='PulsON 440 data file')
-    parser.add_argument('-o', '--output', nargs='?', const='data.dat', default='',
+    parser.add_argument('-o', '--output', nargs='?', const='data.pkl', default='',
                         dest='output', help='Output file; data will be pickled')
     parser.add_argument('-v', '--visualize', action='store_true', dest='visualize',
                         help='Plot RTI of unpacked data; will block computation')
