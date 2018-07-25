@@ -30,7 +30,8 @@ CONFIG_MSG_FORMAT = OrderedDict([
     ('tx_gain_ind',np.dtype(np.uint8)),
     ('code_channel',np.dtype(np.uint8))])
 SPEED_OF_LIGHT = 299792458
-T_BIN = 32
+DT_MIN = 1 / (512*1.024)
+T_BIN = 32 * DT_MIN
 DN_BIN = 96
 # Constants
 DT_0 = 10 # Path delay through antennas (ns)
@@ -84,14 +85,18 @@ def unpack(file, legacy=False):
         start_range = SPEED_OF_LIGHT * ((scan_start_time * 1e-12) - DT_0 * 1e-9) / 2
         drange_bins = SPEED_OF_LIGHT * T_BIN * 1e-9 / 2
         range_bins = start_range + drange_bins * np.arange(0, num_range_bins, 1)
-        
+        print(scan_start_time)
+        print(scan_end_time)
+        print(num_range_bins)
+        print(drange_bins) 
         # Read data
         data = dict()
         data= {'scan_data': [],
                'time_stamp': [],
                'packet_ind': [],
                'packet_pulse_ind': [],
-               'range_bins': range_bins}
+               'range_bins': range_bins,
+                'config': config}
         single_scan_data = []
         packet_count = 0
         pulse_count = 0
