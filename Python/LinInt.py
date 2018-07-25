@@ -29,7 +29,7 @@ StepSize = 0.05 #Step size between left and right boundaries of interval. Must b
 
 #Define Useful Functions
 def actualRange(x, y): #calculutes the range form the position x to the vector y
-    return np.sqrt((x-y[0])**2.0+(-15-y[1])**2.0+25)
+    return np.sqrt((x[0]-y[0])**2.0+(x[1]-y[1])**2.0+(x[2])**2)
 
 def bin(x): #new bin function that returns floored bin
     bin_ = int (x/0.0185)
