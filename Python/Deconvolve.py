@@ -1,13 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import imageio
-from scipy.signal import convolve2d as conv2
-
+from scipy import mgrid,exp
+from numpy.fft import *
+from PIL import Image
 from skimage import color, data, restoration
-def deconvolve(img):
-     image = imageio.imread(img)
-     psf = np.ones((5, 5)) / 25
-     test = restoration.richardson_lucy(image,psf,iterations=30)
-     plt.imshow(test)
-     plt.show()
-deconvolve("imageio:chelsea.png")
+def deconvolve(Input, psf, epsilon):
+    InputFFT = fftn(Input)
+    psfFFT = fftn(psf)+epsilon
+    deconvolved = ifftn(InputFFT/psfFFT)
+    deconvolved = np.abs(deconvolved)
+    return(deconvolved)
+plt.imshow(deconvolve("LinIntBP.png",2,1))
+plt.show()
