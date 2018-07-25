@@ -1,51 +1,51 @@
 #Import Packages
 import matplotlib.pyplot as plt
-import pickle
 import numpy as np
 from numpy import real, arange, reshape
-
-#Load Data
-data = pickle.load(open('data.pkl','rb'))
-Platform = data[0] #Platform
-PlatformX = Platform[:, 0] #X values for Platform 
-Pulses = data[1] #Pulses
-RangeAxis = data[2] #RangeAxis
-
-#Define Parameters
-LeftInterval = -3 #Left boundary of interval of pixels to iterate over
-RightInterval = 3 #Right boundary of interval of pixels to iterate over
-StepSize = 0.05 #Step size between left and right boundaries of interval. Must be less than RightInterval-LeftInterval
-
-#Define Useful Functions
-def actualRange(x, y): #calculutes the range form the position x to the vector y
-    return np.sqrt((x-y[0])**2.0+(-15-y[1])**2.0+25)
-
-def bin(x): #new bin function that returns floored bin
-    bin_ = int (x/0.0185)
-    return bin_
+from read_files import read_radar_data,read_motion_data 
+def BackPropogate(radar_data,RadarPosition,LeftInterval=3,RightInterval=3,StepSize=.1):
     
-#Iterate over pixels
-IntensityList = [] #Intializes list of intensities
-for y in arange(LeftInterval,RightInterval,StepSize): #Iterates over y-coordinates
-    print("Over y coordinate: " + str(y))
-    for x in arange(LeftInterval,RightInterval,StepSize): #Iterates over x-coordinates
-        intensityx = 0+0j #Initializes intensityz
-        for i in range(len(PlatformX)): #Iterates over platform positions
-            PixelCoord = [x,y]  #Defines Pixel Coordinates 
-            Weight1 = (1-(actualRange(PlatformX[i], PixelCoord)%0.0185)/0.0185) #Calculates weight on the left bin
-            Weight2 = (actualRange(PlatformX[i], PixelCoord)%0.0185)/0.0185 #Calculates weight on the right bin
-            #Adds weighted average of pulse bins to calculate intensity 
-            intensityx += Weight1*Pulses[i,  int(bin(actualRange(PlatformX[i], PixelCoord)))] + Weight2*Pulses[i,  int(bin(actualRange(PlatformX[i], PixelCoord)))+1] 
-        IntensityList.append(real(np.absolute(intensityx))) #Appends the correct intensity value to the list of intensities
+    #RadarPosition = Actual position of radar in 3D space
+    PulseData = radar_data[0] #Data of all pulses in file
+    TimeStamp = radar_data[1] #Time of each pulse
+    RangeBins = radar_data[2] #Distance in meters between the sampling rate of PulseData
+    #LeftInterval = Left boundary of interval of pixels to iterate over
+    #RightInterval = Right boundary of interval of pixels to iterate over
+    #StepSize = Step size between left and right boundaries of interval. Must be less than RightInterval-LeftInterval
+
+    bin_constant = float(float(RangeBins[1])/2.0)
+
+    #Define Useful Functions
+    def actualRange(Position, PixelPosition): #calculutes the range form the position x to the vector y
+        return np.sqrt((Position[0]-PixelPosition[0])**2.0+(Position[1]-y[1])**2.0+(Position[2])**2)
+
+    def bin(x): #new bin function that returns floored bin
+        bin_ = int (x/bin_constant)
+        return bin_
+    
+    #Iterate over pixels
+    IntensityList = [] #Intializes list of intensities
+    for y in arange(LeftInterval,RightInterval,StepSize): #Iterates over y-coordinates
+        print("Computing  y coordinate: " + str(y))
+        for x in arange(LeftInterval,RightInterval,StepSize): #Iterates over x-coordinates
+            intensityx = 0+0j #Initializes intensityz
+            for i in range(len(RadarPosition)): #Iterates over platform positions
+                PixelCoord = [x,y]  #Defines Pixel Coordinates 
+                Weight1 = (1-(actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant) #Calculates weight on the left bin
+                Weight2 = (actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant #Calculates weight on the right bin
+                #Adds weighted average of pulse bins to calculate intensity 
+                intensityx += Weight1*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))] + Weight2*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))+1] 
+            IntensityList.append(real(np.absolute(intensityx))) #Appends the correct intensity value to the list of intensities
 
 
 #Reshapes IntensityList into proper format and plots 
-ImageSize = len(arange(LeftInterval,RightInterval,StepSize)) #Calculates proper image size
-IntensityList = np.flip(reshape(IntensityList, (ImageSize,ImageSize)),0) #Reshapes IntensityList to the right size
-plt.imsave('LinIntBP.png',IntensityList)
-#plt.imshow(IntensityList, extent = (LeftInterval, RightInterval, LeftInterval, RightInterval)) #Plots the image    
-#plt.show() #Shows the image in a new window for Mason
+    ImageSize = len(arange(LeftInterval,RightInterval,StepSize)) #Calculates proper image size
+    IntensityList = np.flip(reshape(IntensityList, (ImageSize,ImageSize)),0) #Reshapes IntensityList to the right size
+    plt.imsave('LinIntBP.png',IntensityList)
+    #plt.imshow(IntensityList, extent = (LeftInterval, RightInterval, LeftInterval, RightInterval)) #Plots the image    
+    #plt.show() #Shows the image in a new window for Mason
 
+BackPropogate(read_radar_data(),read_motion_data("MC-RailSAR.csv"),3,3,.1)
 '''
 #Old Code!
 
