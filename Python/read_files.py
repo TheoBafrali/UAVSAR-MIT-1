@@ -17,8 +17,10 @@ Will return a list that holds x, y and z data from the motion capture system
     parsedData = pd.read_csv(path,low_memory=False,skiprows=3) #Reading the CSV file
     for name in list(parsedData):
         #Determining if the parsed data is part of the rigid body
+
         if rigid_body_name in name and "Marker" not in name: 
             data.append(list(parsedData[name][2:]))
+
     #Adding only the X, Y, Z data to the final list
     x = []
     y = []
@@ -44,12 +46,14 @@ Will return a list with scan data, time stamp, and range bins from the pickled d
     scan_data = data['scan_data']
     range_bins = data['range_bins']
     config = data['config']
+
     #Adding only the scan, time stamp, and range bin data to the final list
     new_time_stamp = []
 
     start_time = time_stamp[0]
     for i in range(len(time_stamp)):
         time_stamp[i] = time_stamp[i]-start_time
+
     data = [scan_data,time_stamp,range_bins,config]
     return data
 
