@@ -20,7 +20,16 @@ Will return a list that holds x, y and z data from the motion capture system
         if rigid_body_name in name and "Marker" not in name: 
             data.append(list(parsedData[name][2:]))
     #Adding only the X, Y, Z data to the final list
-    Finaldata = [data[4],data[5],data[6]]
+    x = []
+    y = []
+    z = []
+    for i in range(1,len(data[4])):
+        x.append(float(data[4][i]))
+    for i in range(1,len(data[5])):
+        y.append(float(data[5][i]))
+    for i in range(1,len(data[6])):
+        z.append(float(data[6][i]))
+    Finaldata = [x,y,z]
     return Finaldata
 
 def read_radar_data(filename='../Raw_Data/data.pkl'):
@@ -36,10 +45,11 @@ Will return a list with scan data, time stamp, and range bins from the pickled d
     range_bins = data['range_bins']
     config = data['config']
     #Adding only the scan, time stamp, and range bin data to the final list
-    for i in range(1,len(time_stamp)):
-        if i != (len(time_stamp)-1):
-            if time_stamp[i] == time_stamp[i-1]:
-                time_stamp[i] = (time_stamp[i-1]+time_stamp[i+1])/2.0
+    new_time_stamp = []
+
+    start_time = time_stamp[0]
+    for i in range(len(time_stamp)):
+        time_stamp[i] = time_stamp[i]-start_time
     data = [scan_data,time_stamp,range_bins,config]
     return data
-#read_motion_data("MC-RailSAR.csv",'Mason UAV-SAR 1'
+

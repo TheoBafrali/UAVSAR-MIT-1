@@ -1,7 +1,5 @@
 from read_files import read_radar_data, read_motion_data
-import matplotlib.pyplot as plt
-data = read_radar_data() 
-motion = read_motion_data("MC-RailSAR.csv")
-for i in data:
-    plt.plot(i)
-plt.show()
+import numpy as np
+data = read_radar_data()
+radar_time = np.array(data[1])*.001
+print(radar_time)
