@@ -31,8 +31,10 @@ Will return a list that holds x, y and z data from the motion capture system
         y.append(float(data[5][i]))
     for i in range(1,len(data[6])):
         z.append(float(data[6][i]))
-    Finaldata = [x,y,z]
-    return Finaldata
+    final_data = []
+    for i in range(len(x)):
+        final_data.append([x[i],y[i],z[i]])
+    return final_data
 
 def read_radar_data(filename='../Raw_Data/data.pkl'):
 

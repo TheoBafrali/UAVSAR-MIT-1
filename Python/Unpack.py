@@ -85,10 +85,12 @@ def unpack(file, legacy=False):
         start_range = SPEED_OF_LIGHT * ((scan_start_time * 1e-12) - DT_0 * 1e-9) / 2
         drange_bins = SPEED_OF_LIGHT * T_BIN * 1e-9 / 2
         range_bins = start_range + drange_bins * np.arange(0, num_range_bins, 1)
+        '''
         print(scan_start_time)
         print(scan_end_time)
         print(num_range_bins)
-        print(drange_bins) 
+        print(drange_bins)
+        ''' 
         # Read data
         data = dict()
         data= {'scan_data': [],
