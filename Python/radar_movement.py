@@ -34,4 +34,5 @@ def radar_point_one(data):
         
     #plt.plot(np.flip(p_vals,0),range(len(p_vals)))
     #plt.show()
+    print(start_motion_pulse[0])
     return start_motion_pulse[0]

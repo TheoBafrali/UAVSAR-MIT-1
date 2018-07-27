@@ -6,25 +6,25 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     WrongRadarPosition = aligned_data[1] #Actual position of radar in 3D space
     PulseData = aligned_data[0] #Data of all pulses in file
     RangeBins = radar_data[2] #Distance in meters between the sampling rate of PulseData
+    print(RangeBins)
     #LeftInterval = Left boundary of interval of pixels to iterate over
     #RightInterval = Right boundary of interval of pixels to iterate over
     #StepSize = Step size between left and right boundaries of interval. Must be less than RightInterval-LeftInterval
-    bin_constant = float(RangeBins[1])
+    bin_constant = float(RangeBins[1])-float(RangeBins[0])
     RadarPosition = []
-    print(WrongRadarPosition[:5])
     #This loop changes the xyz data (x is actually z) to z x y data
     for i in range(len(WrongRadarPosition)):
-        y = WrongRadarPosition[i][0]
+        y = WrongRadarPosition[i][1]
         x = WrongRadarPosition[i][2]
-        z = WrongRadarPosition[i][1]
+        z = WrongRadarPosition[i][0]
         RadarPosition.append([x,y,z])
-    print(RadarPosition[:5])
+
     '''Define Useful Functions'''
     def actualRange(Position, PixelPosition): #calculutes the range form the position x to the vector y
         return np.sqrt((Position[0]-PixelPosition[0])**2.0+(Position[1]-PixelPosition[1])**2.0+(Position[2])**2)
     def bin(x): #new bin function that returns floored bin
-        return int(x/bin_constant)
-
+        #return int((x-RangeBins[0])/bin_constant)
+        return np.argmin(np.abs(x - RangeBins))
     #Iterate over pixels
     IntensityList = [] #Intializes list of intensities
     for y in arange(LeftInterval, RightInterval, StepSize):
@@ -33,11 +33,13 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
             intensityx = 0+0j #Initializes intensityz
             for i in range(len(RadarPosition)): #Iterates over platform positions
                 PixelCoord = [x,y]  #Defines Pixel Coordinates
-                Weight1 = (1-(actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant) #Calculates weight on the left bin
-                Weight2 = (actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant #Calculates weight on the right bin
+                if actualRange(RadarPosition[i],PixelCoord) > RangeBins[0] and actualRange(RadarPosition[i],PixelCoord) < RangeBins[575] :
+                    
+                    #Weight1 = (1-(actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant) #Calculates weight on the left bin
+                    #Weight2 = (actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant #Calculates weight on the right bin
                 #Adds weighted average of pulse bins to calculate intensity
-                intensityx += Weight1*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))] + Weight2*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))+1]
-                #intensityx += PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))]
+                    #intensityx += Weight1*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))] + Weight2*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))+1]
+                    intensityx += PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))]
             IntensityList.append(real(np.absolute(intensityx))) #Appends the correct intensity value to the list of intensities
 
 

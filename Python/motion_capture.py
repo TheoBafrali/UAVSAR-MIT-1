@@ -20,4 +20,4 @@ def motion_point_one(data):
             movement.append(velocities[i-1])
             list_pos = i
             break
-    return i
+    return 5888
