@@ -18,7 +18,7 @@ Will return a list that holds x, y and z data from the motion capture system
     for name in list(parsedData):
         #Determining if the parsed data is part of the rigid body
 
-        if rigid_body_name in name and "Marker" not in name: 
+        if rigid_body_name in name and "Marker" not in name:
             data.append(list(parsedData[name][2:]))
 
     #Adding only the X, Y, Z data to the final list
@@ -31,8 +31,12 @@ Will return a list that holds x, y and z data from the motion capture system
         y.append(float(data[5][i]))
     for i in range(1,len(data[6])):
         z.append(float(data[6][i]))
-    Finaldata = [x,y,z]
-    return Finaldata
+    listy = []
+    new_motion_data = []
+    for i in range(len(x)):
+        listy = [x[i],y[i],z[i]]
+        new_motion_data.append(listy)
+    return new_motion_data
 
 def read_radar_data(filename='../Raw_Data/data.pkl'):
 
