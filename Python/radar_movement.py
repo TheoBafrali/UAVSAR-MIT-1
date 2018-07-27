@@ -32,9 +32,10 @@ def find_point_one(name='../Raw_Data/data.pkl'):
         if in_a_row == whitespace:
             start_motion_pulse.append(last_peak)
             last_peak = 0
-
+        
+    plt.plot(np.flip(p_vals,0),range(len(p_vals)))
+    plt.show()
     return start_motion_pulse[0]
 #Pulses = Pulses[start_motion_pulse:]
 #Time = Time[start_motion_pulse:]
-#plt.plot(np.flip(p_vals,0),range(len(p_vals)))
-#plt.show()
+find_point_one()
