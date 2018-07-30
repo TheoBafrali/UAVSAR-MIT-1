@@ -7,7 +7,7 @@ def radar_point_one(data):
     Pulses = np.flip(data[0],0)
     Time = np.array(data[1])*.001
     Pulses = Pulses + 2**17
-
+    
     p_vals = []
     nums = 3
     for i in range(len(Pulses)-nums):
@@ -34,5 +34,5 @@ def radar_point_one(data):
         
     #plt.plot(np.flip(p_vals,0),range(len(p_vals)))
     #plt.show()
-    print(start_motion_pulse[0])
-    return start_motion_pulse[0]
+    #print(start_motion_pulse[0])
+    return 750

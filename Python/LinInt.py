@@ -14,9 +14,9 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     RadarPosition = []
     #This loop changes the xyz data (x is actually z) to z x y data
     for i in range(len(WrongRadarPosition)):
-        y = WrongRadarPosition[i][1]
+        y = WrongRadarPosition[i][0]
         x = WrongRadarPosition[i][2]
-        z = WrongRadarPosition[i][0]
+        z = WrongRadarPosition[i][1]
         RadarPosition.append([x,y,z])
 
     '''Define Useful Functions'''

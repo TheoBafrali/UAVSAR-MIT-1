@@ -18,7 +18,7 @@ def shift_approach(pulses, range_axis, platform_pos, x_vec, y_vec):
     Backprojection using only discrete shifts.
     """
     
-def interp_approach(aligned_data,radar_data, x_vec, y_vec):
+def interp_approach(aligned_data,radar_data, x_bounds, y_bounds,pixel_res):
     """
     Backprojection using interpolated shifts.
     """
@@ -36,6 +36,11 @@ def interp_approach(aligned_data,radar_data, x_vec, y_vec):
      
     # Determine dimensions of data
     num_pulses = pulses.shape[0]
+        
+    x_vec = np.arange(x_bounds[0], x_bounds[1], 
+                        pixel_res)
+    y_vec = np.arange(y_bounds[0], y_bounds[1], 
+                        pixel_res)
     
     x_grid, y_grid = np.meshgrid(x_vec,y_vec)    
  
@@ -55,7 +60,19 @@ def interp_approach(aligned_data,radar_data, x_vec, y_vec):
         # grid using linear interpolation
         complex_image += np.interp(two_way_range_grid, range_axis, 
                                    pulses[ii, :])
-        
+    
+    image_extent = (x_vec[0], x_vec[-1], y_vec[0], y_vec[-1])
+    plt.figure()
+    plt.subplot(121)
+    plt.imshow(np.abs(complex_image), origin='lower', extent=image_extent)
+    plt.title('Linear Scale')
+    plt.colorbar()
+    plt.subplot(122)
+    plt.imshow(20 * np.log10(np.abs(complex_image)), origin='lower', extent=image_extent)
+    plt.title('Logarithmic Scale')
+    plt.colorbar()
+    plt.show()
+
     return complex_image
     
 def fourier_approach(pulses, range_axis, platform_pos, x_vec, y_vec, 

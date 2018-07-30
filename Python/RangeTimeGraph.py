@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from read_files import read_radar_data
-data = read_radar_data()
+data = read_radar_data('../Raw_Data/data.pkl')
 Pulses = np.flip(data[0],0)
 Range_Bins = data[2]
 RangeBinDistance = Range_Bins[2]-Range_Bins[1]
