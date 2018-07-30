@@ -5,10 +5,10 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one):
     radar_collection_hz = 1/.008 #Need to confirm
     motion_collection_hz = 360
     constant = motion_collection_hz/radar_collection_hz
-    Pulses = radar_data[0][750:1775]
+    Pulses = radar_data[0][radar_point_one:1775]
     radar_time = radar_data[1][radar_point_one-1:] - (radar_data[1][radar_point_one-1])
     starting_radar_time = radar_time[1]
-    new_motion_data = motion_data[5892:9992] 
+    new_motion_data = motion_data[motion_point_one:9992] 
     motion_time = []
     for i in range(len(new_motion_data)):
         motion_time.append(1000*i*1/360)  
