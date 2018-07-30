@@ -71,9 +71,7 @@ def find_point_one_radar(name='../Raw_Data/data.pkl'):
     return start_motion_pulse[0]
 
 
-def find_i_of_first_motion(name='../Raw_Data/MC-RailSAR2.csv'):
-
-    data = read_motion_data(name)
+def delta_detector(data):
     v = np.array([])
     vs = np.array([])
     d = np.array([])
@@ -167,4 +165,18 @@ def find_i_of_first_motion(name='../Raw_Data/MC-RailSAR2.csv'):
     plt.plot([indices_of_first_motion[0], indices_of_first_motion[0]], [0,10])
     plt.show()
     return indices_of_first_motion[0]
+
+
+
+
+def find_i_of_first_motion(name='../Raw_Data/MC-RailSAR2.csv'):
+    data = np.array(read_motion_data(name))
+    return delta_detector(data)
+
+def find_i_of_last_motion(name='../Raw_Data/MC-RailSAR2.csv'):
+    data = np.flip(np.array(read_motion_data(name)))
+    return len(data) - delta_detector(data)
+
+
+
 
