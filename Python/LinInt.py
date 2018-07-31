@@ -61,7 +61,7 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     IntensityList = np.flip(reshape(IntensityList, (ImageSizeY,ImageSizeX)),0) #Reshapes IntensityList to the right size
     #plt.imsave('LinIntBP.png',IntensityList)
     plt.set_cmap('jet')
-    logarithmic_intensity = 20*np.log10(IntensityList)
+    logarithmic_intensity = 20*np.log10(IntensityList+1)
     max_log_intensity = max(logarithmic_intensity.flatten())
 
     plt.figure(1)

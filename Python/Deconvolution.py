@@ -40,6 +40,6 @@ def deconvolute(IntensityList, IterationNumber = 30, PercentageMin = 1/5.5):
     plt.figure()
     #Plot user deconvoluted image
     plt.imshow(DeconvolutedIntensityList,vmin=DeconvolutedIntensityList.max()*PercentageMin, vmax=DeconvolutedIntensityList.max())
-    
+    plt.show()    
     #Returns intensity list with user inputted number of iterations
     return DeconvolutedIntensityList

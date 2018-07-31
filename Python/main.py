@@ -7,8 +7,9 @@ from LinInt import BackProjection
 from backprojection import interp_approach, main
 from AlignedRangeTimeGraph import AlignedGraph
 from Deconvolution import deconvolute
+from intensity_reader import saved_intensity
 #unpack("../Raw_data/RailSAR-record1")
-
+'''
 motion_data = read_motion_data("../Raw_Data/UASSAR4_rail_diagonal.csv","UASSAR4")
 
 radar_data = read_radar_data("../Raw_Data/railTestDiagonal.pkl")
@@ -25,8 +26,10 @@ aligned_data = align_data(radar_data,motion_data,radar_start,motion_start, motio
 #interp_approach(aligned_data,radar_data,[-3,3],[-3,3],.1)
 
 
-BackProjection(aligned_data,radar_data,[-3,-3],[3,3],.1)
+#BackProjection(aligned_data,radar_data,[-3,-3],[3,3],.1)
 
 IntensityList = BackProjection(aligned_data,radar_data,[-5,-5],[5,5],.05)
+'''
+IntensityList = saved_intensity()
 deconvolute(IntensityList, IterationNumber = 30, PercentageMin = 1/5.5)
 
