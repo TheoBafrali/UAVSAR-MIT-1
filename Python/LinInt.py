@@ -6,7 +6,7 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     WrongRadarPosition = aligned_data[1] #Actual position of radar in 3D space
     PulseData = aligned_data[0] #Data of all pulses in file
     RangeBins = radar_data[2] #Distance in meters between the sampling rate of PulseData
-    print(RangeBins)
+    #print(RangeBins)
     #LeftInterval = Left boundary of interval of pixels to iterate over
     #RightInterval = Right boundary of interval of pixels to iterate over
     #StepSize = Step size between left and right boundaries of interval. Must be less than RightInterval-LeftInterval
@@ -26,28 +26,40 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
         #return int((x-RangeBins[0])/bin_constant)
         return np.argmin(np.abs(x - RangeBins))
     #Iterate over pixels
+    graphingx = []
+    graphingy = []
+    graphingz = []
     IntensityList = [] #Intializes list of intensities
-    for y in arange(LeftInterval, RightInterval, StepSize):
+    for y in arange(LeftInterval[1], RightInterval[1], StepSize):
         print("Computing  y coordinate: " + str(y))
-        for x in arange(LeftInterval, RightInterval, StepSize):
+        for x in arange(LeftInterval[0], RightInterval[0], StepSize):
             intensityx = 0+0j #Initializes intensityz
             for i in range(len(RadarPosition)): #Iterates over platform positions
                 PixelCoord = [x,y]  #Defines Pixel Coordinates
-                if actualRange(RadarPosition[i],PixelCoord) > RangeBins[0] and actualRange(RadarPosition[i],PixelCoord) < RangeBins[575] :
+                #if actualRange(RadarPosition[i],PixelCoord) > RangeBins[0] and actualRange(RadarPosition[i],PixelCoord) < RangeBins[575] :
                     
                     #Weight1 = (1-(actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant) #Calculates weight on the left bin
                     #Weight2 = (actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant #Calculates weight on the right bin
                 #Adds weighted average of pulse bins to calculate intensity
                     #intensityx += Weight1*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))] + Weight2*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))+1]
-                    intensityx += PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))]
+                    #print(len(PulseData[i]))
+                    #print(i)
+                graphingx.append(RadarPosition[i][0])
+                graphingy.append(RadarPosition[i][1]) 
+                graphingz.append(RadarPosition[i][2])
+                intensityx += PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))]
             IntensityList.append(real(np.absolute(intensityx))) #Appends the correct intensity value to the list of intensities
 
-
+    plt.plot(graphingx)
+    plt.plot(graphingy)
+    plt.plot(graphingz)
+    plt.show()
 #Reshapes IntensityList into proper format and plots
-    ImageSize = len(arange(LeftInterval,RightInterval,StepSize)) #Calculates proper image size
-    IntensityList = np.flip(reshape(IntensityList, (ImageSize,ImageSize)),0) #Reshapes IntensityList to the right size
+    ImageSizeX = len(arange(LeftInterval[0],RightInterval[0],StepSize))  #Calculates proper image size
+    ImageSizeY = len(arange(LeftInterval[1],RightInterval[1],StepSize)) #Calculates proper image size
+    IntensityList = np.flip(reshape(IntensityList, (ImageSizeX,ImageSizeY)),0) #Reshapes IntensityList to the right size
     #plt.imsave('LinIntBP.png',IntensityList)
-    plt.imshow(IntensityList, extent = (LeftInterval, RightInterval, LeftInterval, RightInterval)) #Plots the image
+    plt.imshow(IntensityList, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image
     plt.show() #Shows the image in a new window for Mason
     return IntensityList
 

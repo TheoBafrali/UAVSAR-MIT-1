@@ -47,7 +47,6 @@ Will return a list with scan data, time stamp, and range bins from the pickled d
     time_stamp = numpy.concatenate(data['time_stamp'])
     scan_data = data['scan_data']
     range_bins = data['range_bins']
-
     #Adding only the scan, time stamp, and range bin data to the final list
     new_time_stamp = []
 

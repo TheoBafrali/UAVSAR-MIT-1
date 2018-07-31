@@ -34,9 +34,8 @@ def euc_norm(x):
 '''
 returns pulse index of first motion, only works for railSAR as of now
 '''
-def find_point_one_radar(name='../Raw_Data/data.pkl'):
+def find_point_one_radar(data):
 
-    data = read_radar_data(name)
     Pulses = np.flip(data[0],0)
     Time = np.array(data[1])*.001
     Pulses = Pulses + 2**17
@@ -67,7 +66,7 @@ def find_point_one_radar(name='../Raw_Data/data.pkl'):
         
     #plt.plot(np.flip(p_vals,0),range(len(p_vals)))
     #plt.show()
-    print(start_motion_pulse[0])
+    #print(start_motion_pulse[0])
     return start_motion_pulse[0]
 
 
@@ -98,19 +97,19 @@ def delta_detector(data):
         std_dev = np.append(std_dev, np.std(vs[ii - int(std_dev_win * 0):ii + int(std_dev_win * 1)]))
 
 
-    plt.plot(d)
-    plt.plot(ds)
+    #plt.plot(d)
+    #plt.plot(ds)
     '''
     plot velocity, smoothed velocity, std_dev
     '''
-    plt.plot(v)
-    plt.plot(vs)
+    #plt.plot(v)
+    #plt.plot(vs)
     '''
     scale and cube std_dev to improve SNR
     '''
     std_dev = np.array(std_dev) * 4000
     std_dev = np.power(std_dev, np.full((len(std_dev)), 3))
-    plt.plot(std_dev)
+    #plt.plot(std_dev)
 
     '''
     compute the local maxima peaks of the sigma_squared sata
@@ -137,9 +136,9 @@ def delta_detector(data):
 
 
     running_avgs = 100 * np.array(running_avgs)
-    plt.plot(goddamnit, running_avgs)
-    print("running_avgs::")
-    print(running_avgs)
+    #plt.plot(goddamnit, running_avgs)
+    #print("running_avgs::")
+    #print(running_avgs)
 
 
     total_std_peaks = 0
@@ -156,25 +155,23 @@ def delta_detector(data):
         plt.plot([indices_of_first_motion[ii], indices_of_first_motion[ii]], [0,1])
     '''
 
-    print("indices_of_first_motion::")
-    plt.ylim(-.0015, 10)
+    #print("indices_of_first_motion::")
+    #plt.ylim(-.0015, 10)
     '''
     for ii in range(0, len(peak_sigma_sq)):
         plt.plot([peak_sigma_sq[ii][1], peak_sigma_sq[ii][1]], [0,1])
     '''
-    plt.plot([indices_of_first_motion[0], indices_of_first_motion[0]], [0,10])
-    plt.show()
+    #plt.plot([indices_of_first_motion[0], indices_of_first_motion[0]], [0,10])
+    #plt.show()
     return indices_of_first_motion[0]
 
 
-
-
-def find_i_of_first_motion(name='../Raw_Data/MC-RailSAR2.csv'):
-    data = np.array(read_motion_data(name))
+def find_i_of_first_motion(motion_data):
+    data = np.array(motion_data)
     return delta_detector(data)
 
-def find_i_of_last_motion(name='../Raw_Data/MC-RailSAR2.csv'):
-    data = np.flip(np.array(read_motion_data(name)))
+def find_i_of_last_motion(motion_data):
+    data = np.flip(np.array(motion_data),0)
     return len(data) - delta_detector(data)
 
 

@@ -1,14 +1,17 @@
 import numpy as np
 import math
-
-def align_data(radar_data,motion_data,radar_point_one,motion_point_one):
+import matplotlib.pyplot as plt
+def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_point_last):
     radar_collection_hz = 1/.008 #Need to confirm
     motion_collection_hz = 360
+    radar_point_one = 1000
     constant = motion_collection_hz/radar_collection_hz
-    Pulses = radar_data[0][radar_point_one:1775]
+    Pulses = radar_data[0][radar_point_one:4025]
     radar_time = radar_data[1][radar_point_one-1:] - (radar_data[1][radar_point_one-1])
     starting_radar_time = radar_time[1]
-    new_motion_data = motion_data[motion_point_one:9992] 
+    motion_point_one = 5900 
+    motion_point_last = 20000
+    new_motion_data = motion_data[motion_point_one:motion_point_last] 
     motion_time = []
     for i in range(len(new_motion_data)):
         motion_time.append(1000*i*1/360)  
@@ -22,6 +25,10 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one):
                 iterated_radar_time += starting_radar_time
                 final_motion_list.append(new_motion_data[i])
     Final = [Pulses,final_motion_list]
+    print(len(Pulses))
+    plt.plot(final_motion_list)
+    plt.show()
+    print(len(final_motion_list))
     #print(new_motion_data)
     #print(final_motion_list)
     return Final
