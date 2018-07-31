@@ -23,4 +23,4 @@ aligned_data = align_data(radar_data,motion_data,radar_start,motion_start, motio
 #AlignedGraph(aligned_data,radar_data)
 #interp_approach(aligned_data,radar_data,[-3,3],[-3,3],.1)
 
-BackProjection(aligned_data,radar_data,[-5,-5],[5,5],.05)
+BackProjection(aligned_data,radar_data,[-3,-3],[3,3],.1)

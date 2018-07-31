@@ -33,7 +33,7 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     for y in arange(LeftInterval[1], RightInterval[1], StepSize):
         print("Computing  y coordinate: " + str(y))
         for x in arange(LeftInterval[0], RightInterval[0], StepSize):
-            intensityx = 0+0j #Initializes intensityz
+            intensityx = 0+0j #Initializes intensities
             for i in range(len(RadarPosition)): #Iterates over platform positions
                 PixelCoord = [x,y]  #Defines Pixel Coordinates
                 if actualRange(RadarPosition[i],PixelCoord) > RangeBins[0] and actualRange(RadarPosition[i],PixelCoord) < RangeBins[-1] :
@@ -41,12 +41,12 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
                     Weight1 = (1-(actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant) #Calculates weight on the left bin
                     Weight2 = (actualRange(RadarPosition[i], PixelCoord)%bin_constant)/bin_constant #Calculates weight on the right bin
                 #Adds weighted average of pulse bins to calculate intensity
-                    intensityx += Weight1*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))] + Weight2*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))+1]
+                    intensityx += Weight1*PulseData[i,int(bin(actualRange(RadarPosition[i], PixelCoord)))] + Weight2*PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))+1]
                     #print(len(PulseData[i]))
                     #print(i)
-                    graphingx.append(RadarPosition[i][0])
-                    graphingy.append(RadarPosition[i][1]) 
-                    graphingz.append(RadarPosition[i][2])
+                    #graphingx.append(RadarPosition[i][0])
+                    #graphingy.append(RadarPosition[i][1]) 
+                    #graphingz.append(RadarPosition[i][2])
                     #intensityx += PulseData[i,  int(bin(actualRange(RadarPosition[i], PixelCoord)))]
             IntensityList.append(real(np.absolute(intensityx))) #Appends the correct intensity value to the list of intensities
 
@@ -57,11 +57,29 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
 #Reshapes IntensityList into proper format and plots
     ImageSizeX = len(arange(LeftInterval[0],RightInterval[0],StepSize))  #Calculates proper image size
     ImageSizeY = len(arange(LeftInterval[1],RightInterval[1],StepSize)) #Calculates proper image size
-    IntensityList = np.flip(reshape(IntensityList, (ImageSizeX,ImageSizeY)),0) #Reshapes IntensityList to the right size
-    #plt.imsave('LinIntBP.png',IntensityList)
-    plt.imshow(IntensityList, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image
-    plt.show() #Shows the image in a new window for Mason
 
+    IntensityList = np.flip(reshape(IntensityList, (ImageSizeY,ImageSizeX)),0) #Reshapes IntensityList to the right size
+    #plt.imsave('LinIntBP.png',IntensityList)
+    plt.set_cmap('jet')
+    logarithmic_intensity = 20*np.log10(IntensityList)
+    max_log_intensity = max(logarithmic_intensity.flatten())
+
+    plt.figure(1)
+    plt.subplot(121) 
+    plt.title("Logaritmic")
+    plt.imshow(logarithmic_intensity, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image 
+    plt.clim(max_log_intensity-20,max_log_intensity)
+    plt.axis('equal')
+    
+
+    plt.subplot(122)
+    plt.set_cmap('jet')
+    plt.title("Linear")
+    plt.imshow(IntensityList, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image
+    plt.axis('equal')
+    plt.colorbar()
+
+    plt.show() #Shows the image in a new window for Mason
     np.savetxt("intensity.csv", IntensityList, delimiter=",", fmt='%s')
     return IntensityList
     
