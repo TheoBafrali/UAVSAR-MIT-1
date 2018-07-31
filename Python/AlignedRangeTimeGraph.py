@@ -41,5 +41,4 @@ def AlignedGraph(aligned_data,radar_data):
     plt.ylabel("Pulse Number")
     plt.imshow(np.abs(Pulses),extent=[Range_Bins[1],Range_Bins[len(Range_Bins)-1],1,len(Pulses)])
     plt.axis('tight')
-
     plt.show()
