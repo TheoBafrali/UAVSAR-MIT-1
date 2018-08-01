@@ -1,18 +1,14 @@
+'''
+Plots aligned graph
+
+@author: Mason
+'''
+
+#Import required modules
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-'''
-unpack("../Raw_data/RailSAR-record1")
-motion_data = read_motion_data("../Raw_Data/MC-RailSAR.csv")
 
-radar_data = read_radar_data()
-
-motion_start = motion_point_one(motion_data)
-
-radar_start = radar_point_one(radar_data)
-
-aligned_data = align_data(radar_data,motion_data,radar_start,motion_start)
-'''
 def AlignedGraph(aligned_data,radar_data):
     
     Pulses = aligned_data[0]
