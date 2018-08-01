@@ -8,7 +8,6 @@ aligns data, calculates backprojected image, deconvolutes image, and plots.
 #Import required modules
 from Unpack import unpack 
 from read_files import read_radar_data, read_motion_data
-from motion_capture import motion_point_one
 from radar_movement import find_point_one_radar, find_i_of_first_motion, find_i_of_last_motion
 from data_align import align_data
 from AlignedRangeTimeGraph import AlignedGraph 
