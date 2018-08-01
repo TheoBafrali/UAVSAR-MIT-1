@@ -9,6 +9,18 @@ import math
 import matplotlib.pyplot as plt
 
 def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_point_last):
+    '''
+    Inputs: 
+        radar_data: contains pulses, timestamps, and range bins
+        motion_data: contains position data for a set of times
+        radar_point_one, motion_point_one, motion_point_last: currently unused
+        
+    Outputs: 
+        Returns aligned data
+        
+    Summary:
+        RADAR data and motion data have different sampling rates (Motion: 360, RADAR: ?), so the data needs to be aligned
+    '''
     #Manual inputs for frames
     motion_point_one = 1844 
     motion_point_last = 5100
