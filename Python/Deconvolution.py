@@ -32,15 +32,15 @@ def deconvolute(IntensityList, IterationNumber = 30, PercentageMin = 1/5.5):
     # Restore image using Richardson-Lucy algorithm
     DefaultDeconvoluted = restoration.richardson_lucy(IntensityList, psf, iterations=10, clip = False)
     DeconvolutedIntensityList = restoration.richardson_lucy(IntensityList, psf, iterations=IterationNumber, clip  = False)
-
+    print(DefaultDeconvoluted)
     #Plot deconvoluted images
     plt.set_cmap('jet')
     #Plot default deconvoluted image
-    plt.figure(2)
-    plt.imshow(DefaultDeconvoluted,vmin=DefaultDeconvoluted.max()*PercentageMin, vmax=DefaultDeconvoluted.max())
-    plt.figure()
+    #plt.imshow(DefaultDeconvoluted,vmin=DefaultDeconvoluted.max()*PercentageMin, vmax=DefaultDeconvoluted.max())
+    plt.imshow(DefaultDeconvoluted)
+    plt.show()
+    plt.set_cmap('jet')
     #Plot user deconvoluted image
-    plt.figure(3)
     plt.imshow(DeconvolutedIntensityList,vmin=DeconvolutedIntensityList.max()*PercentageMin, vmax=DeconvolutedIntensityList.max())
     plt.show() 
     

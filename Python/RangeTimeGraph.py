@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 from read_files import read_radar_data, read_motion_data
-data = read_radar_data('../Raw_Data/data.pkl')
+data = read_radar_data('../Raw_Data/railTestDiagonal.pkl')
 Pulses = data[0]
 Range_Bins = data[2]
 RangeBinDistance = Range_Bins[2]-Range_Bins[1]
@@ -15,7 +15,7 @@ for x in range(len(box_position)):
             distance.append(math.sqrt((position[i][0]-box_position[x][0])**2+(position[i][1]-box_position[x][1])**2+(position[i][2]-box_position[x][2])**2))
         total_distance.append(distance)
         distance = []
-        plt.plot(total_distance[x],range(len(total_distance[0])))
+        #plt.plot(total_distance[x],range(len(total_distance[0])))
 RangeBinX = []
 for i in np.arange(0,len(Range_Bins),50):
     RangeBinX.append(round(i*RangeBinDistance+Range_Bins[0],2))

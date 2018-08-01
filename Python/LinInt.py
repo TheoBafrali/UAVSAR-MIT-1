@@ -77,7 +77,7 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     plt.title("Linear")
     plt.imshow(IntensityList, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image
     plt.axis('equal')
-    plt.colorbar()
+    #plt.colorbar()
 
     plt.show() #Shows the image in a new window for Mason
     np.savetxt("intensity.csv", IntensityList, delimiter=",", fmt='%s')
