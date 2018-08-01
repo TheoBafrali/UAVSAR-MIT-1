@@ -31,5 +31,5 @@ AlignedGraph(aligned_data,radar_data)
 #IntensityList = BackProjection(aligned_data,radar_data,[-3,-1],[2.5,4],.02) 
 
 IntensityList = read_intensity('../Raw_Data/intensity2.csv')
-deconvolute(IntensityList, IterationNumber = 30, PercentageMin = 1/5.5)
+deconvolute(IntensityList, IterationNumber = 3, PercentageMin = 1/5.5)
 
