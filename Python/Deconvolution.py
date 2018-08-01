@@ -80,10 +80,11 @@ def deconvolute(IntensityList, IterationNumber = 30, PercentageMin = 1/5.5):
     #Plot deconvoluted images
     plt.set_cmap('jet')
     #Plot default deconvoluted image
-    plt.figure(2)
+    #plt.figure(2)
     plt.imshow(DefaultDeconvoluted,vmin=DefaultDeconvoluted.max()*PercentageMin, vmax=DefaultDeconvoluted.max())
+    plt.show()
     #Plot user deconvoluted image
-    plt.figure(3)
+    #plt.figure(3)
     plt.imshow(DeconvolutedIntensityList,vmin=DeconvolutedIntensityList.max()*PercentageMin, vmax=DeconvolutedIntensityList.max())
     plt.show()
     #Returns intensity list with user inputted number of iterations
