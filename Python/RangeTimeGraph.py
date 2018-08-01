@@ -1,12 +1,22 @@
+'''
+Debug file that plots RTI  graph with RADAR data pre-alignment
+
+@author: Mason
+'''
+#Import required modules
 import matplotlib.pyplot as plt
 import numpy as np
 import math
 from read_files import read_radar_data, read_motion_data
+
+#Loads data
 data = read_radar_data('../Raw_Data/railTestDiagonal.pkl')
 Pulses = data[0]
 Range_Bins = data[2]
 RangeBinDistance = Range_Bins[2]-Range_Bins[1]
 position = read_motion_data('../Raw_Data/MC-RailSAR.csv')
+
+#Define box positions and calculate expected distances
 distance = []
 total_distance = []
 box_position = [[.33,.168,-.149],[2.44,.168,-2.168],[.233,.168,-2.69],[2.48,.168,.859]]
@@ -19,6 +29,9 @@ for x in range(len(box_position)):
 RangeBinX = []
 for i in np.arange(0,len(Range_Bins),50):
     RangeBinX.append(round(i*RangeBinDistance+Range_Bins[0],2))
+
+
+#Plots the data as well as the expected data
 plt.set_cmap('nipy_spectral')
 plt.xticks(np.arange(0,len(Range_Bins),50),RangeBinX)
 #plt.yticks(np.arange(0,len(Pulses),1000),np.flip(np.arange(0,len(Pulses),1000),0))
