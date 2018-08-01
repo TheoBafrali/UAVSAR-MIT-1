@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-SAR backprojection image formation.
+Ramu's SAR backprojection image formation.
+
+@author: Ramu
 """
 
 # Import the required modules
