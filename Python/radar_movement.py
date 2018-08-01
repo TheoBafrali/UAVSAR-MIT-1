@@ -1,3 +1,10 @@
+'''
+Calculates frames that RADAR data start/end and the frame that motion data starts from
+
+@author: Mason + Theo
+'''
+
+#Import required modules
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas
@@ -8,8 +15,14 @@ from read_files import read_radar_data, read_motion_data
 '''
 distance between n  dimensional vecotrs in a list [a,b]
 '''
+def euc_norm(x):
 
+    if np.array(x).ndim == 1:
+       return np.linalg.norm(x)
 
+    _x = np.array(x[0])
+    _y = np.array(x[1])
+    return np.linalg.norm(_x - _y)
 
 '''
 returns a list of the peaks and their indices, as [peak_val, og_index]
@@ -20,16 +33,6 @@ def find_peaks(nums):
         if nums[ii] > nums[ii + 1] and nums[ii] > nums[ii - 1]:
              returnable.append([nums[ii], ii])
     return returnable
-
-def euc_norm(x):
-
-    if np.array(x).ndim == 1:
-       return np.linalg.norm(x)
-
-    _x = np.array(x[0])
-    _y = np.array(x[1])
-    return np.linalg.norm(_x - _y)
-
 
 '''
 returns pulse index of first motion, only works for railSAR as of now
