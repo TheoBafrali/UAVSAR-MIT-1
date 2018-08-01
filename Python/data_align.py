@@ -46,7 +46,7 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_po
                 count += 1
                 iterated_radar_time += starting_radar_time
                 final_motion_list.append(new_motion_data[i])
-    Final = [Pulses,final_motion_list]
+    Final = [Pulses,final_motion_list,len(final_motion_list)+radar_point_one]
     
     #Return outputs
     print(len(Pulses))

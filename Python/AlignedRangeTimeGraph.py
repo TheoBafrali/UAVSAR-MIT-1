@@ -36,11 +36,10 @@ def AlignedGraph(aligned_data,radar_data):
             distance.append(math.sqrt((position[i][0]-box_position[x][0])**2+(position[i][1]-box_position[x][1])**2+(position[i][2]-box_position[x][2])**2))    
         total_distance.append(distance)
         distance = []
-        #plt.plot(total_distance[x],range(len(total_distance[0])))
+        plt.plot(total_distance[x],range(len(total_distance[0])))
 
     print(distance)
     plt.set_cmap('nipy_spectral')
-    plt.figure(4)
     #plt.xticks(np.arange(0,len(Range_Bins),50),RangeBinX)
 #plt.yticks(np.arange(0,len(Pulses),1000),np.flip(np.arange(0,len(Pulses),1000),0))
     plt.xlabel("Distance (m)")
