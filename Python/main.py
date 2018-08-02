@@ -6,7 +6,7 @@ aligns data, calculates backprojected image, deconvolutes image, and plots.
 '''
 
 #Import required modules
-from Unpack import unpack 
+from pulson440_unpack import unpack 
 from read_files import read_radar_data, read_motion_data
 from radar_movement import find_point_one_radar, find_i_of_first_motion, find_i_of_last_motion
 from data_align import align_data
@@ -17,20 +17,24 @@ from Deconvolution import deconvolute
 from backprojection import interp_approach, main #Ramu's backprojection
 
 #Converts motion and RADAR data to the right data structures
-#unpack("../Raw_data/RailSAR-record1") #Currently commented out because unused
+unpack("../Raw_Data/uavsar1flight1") #Currently commented out because unused
 
 #Loads data from the RADAR
-motion_data = read_motion_data("../Raw_Data/UASSAR4_rail_diagonal.csv","UASSAR4")
-radar_data = read_radar_data("../Raw_Data/railTestDiagonal.pkl")
+motion_data = read_motion_data("../Raw_Data/UAVSAR1Flight1.csv","UAVSAR1")
+radar_data = read_radar_data("../Raw_Data/data.pkl")
 
 #Finds the first point of the motion data that it starts to move
-motion_start = find_i_of_first_motion(motion_data)
+#motion_start = find_i_of_first_motion(motion_data)
 
 #Finds the last point of the motion data that it moves
-motion_end = find_i_of_last_motion(motion_data)
+#motion_end = find_i_of_last_motion(motion_data)
 
 #Finds the first point in the radar data that it starts to move
-radar_start = find_point_one_radar(radar_data)
+#radar_start = find_point_one_radar(radar_data)
+
+radar_start = 200
+motion_start = 200
+motion_end = 200
 
 #Aligns data, currently using frames given in function definition
 aligned_data = align_data(radar_data,motion_data,radar_start,motion_start, motion_end)
@@ -39,9 +43,9 @@ aligned_data = align_data(radar_data,motion_data,radar_start,motion_start, motio
 #AlignedGraph(aligned_data,radar_data)
 
 #Calculates and plots BackProjected Image
-#IntensityList = BackProjection(aligned_data,radar_data,[-5,-5],[5,5],0.005)
+IntensityList = BackProjection(aligned_data,radar_data,[-5,-5],[5,5],0.005)
 
-IntensityList = read_intensity('../Raw_Data/intensity2.csv')
+#IntensityList = read_intensity('../Raw_Data/intensity2.csv')
 #Deconvolutes image and plots images
 deconvolute(IntensityList, IterationNumber = 3, PercentageMin = 1/5.5)
 

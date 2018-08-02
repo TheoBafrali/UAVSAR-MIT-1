@@ -8,7 +8,6 @@ Plots aligned graph
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-
 def AlignedGraph(aligned_data,radar_data):
     '''
     Inputs:
@@ -25,7 +24,7 @@ def AlignedGraph(aligned_data,radar_data):
     position = aligned_data[1]
     
     #Positions for each point
-    box_position = [[.33,.168,-.149],[2.44,.168,-2.168],[.233,.168,-2.69],[2.48,.168,.859]]
+    box_position = [[.746,.23229,-1.95548],[.942713,.227,1.019],[2.48,.1519,-.238],[2.648,.163,2.227]]
     for i in np.arange(0,len(Range_Bins),50):
         RangeBinX.append(round(i*RangeBinDistance+Range_Bins[0],2))
     distance = []
@@ -44,6 +43,6 @@ def AlignedGraph(aligned_data,radar_data):
 #plt.yticks(np.arange(0,len(Pulses),1000),np.flip(np.arange(0,len(Pulses),1000),0))
     plt.xlabel("Distance (m)")
     plt.ylabel("Pulse Number")
-    plt.imshow(np.abs(Pulses),extent=[Range_Bins[1],Range_Bins[len(Range_Bins)-1],1,len(Pulses)])
+    plt.imshow(np.flip(np.abs(Pulses),0),extent=[Range_Bins[1],Range_Bins[len(Range_Bins)-1],1,len(Pulses)])
     plt.axis('tight')
     plt.show()

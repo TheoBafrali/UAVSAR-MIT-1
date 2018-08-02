@@ -26,4 +26,4 @@ CONFIG_MSG_FORMAT = OrderedDict([
     ('ant_mode', np.dtype(np.uint8)), # Antenna mode; recommended value used
     ('tx_gain_ind', np.dtype(np.uint8)), # Transmit gain index
     ('code_channel', np.dtype(np.uint8)), # Code channel
-
+    ('persist_flag', np.dtype(np.uint8))]) # Persist flag

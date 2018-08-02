@@ -22,9 +22,9 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_po
         RADAR data and motion data have different sampling rates (Motion: 360, RADAR: ?), so the data needs to be aligned
     '''
     #Manual inputs for frames
-    motion_point_one = 1844 
-    motion_point_last = 5100
-    radar_point_one = 260
+    #motion_point_one = 1844 
+    #motion_point_last = 5100
+    #radar_point_one = 260
     
     #Takes relevant RADAR data
     Pulses = radar_data[0][radar_point_one:2000]
@@ -51,6 +51,7 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_po
     #Return outputs
     print(len(Pulses))
     print(len(final_motion_list))
+    #print(final_motion_list)
     return Final
 
 '''

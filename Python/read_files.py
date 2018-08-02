@@ -65,7 +65,7 @@ def read_radar_data(filename='../Raw_Data/data.pkl'):
     #Load data
     path = '../Raw_Data/' + str(filename) #This is the path to the file
     data = pickle.load(open(path,'rb')) #Loading the pickle file
-    time_stamp = numpy.concatenate(data['time_stamp'])
+    time_stamp = data['time_stamp']
     scan_data = data['scan_data']
     range_bins = data['range_bins']
     

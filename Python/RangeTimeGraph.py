@@ -31,7 +31,7 @@ def rti_graph(radar_data,motion_data,pulse_start,motion_start,motion_end,pulse_e
             distance.append(math.sqrt((position[i][0]-box_position[x][0])**2+(position[i][1]-box_position[x][1])**2+(position[i][2]-box_position[x][2])**2))
         total_distance.append(distance)
         distance = []
-        plt.plot(total_distance[x],range(len(total_distance[0])))
+        #plt.plot(total_distance[x],range(len(total_distance[0])))
 
     RangeBinX = []
     for i in np.arange(0,len(Range_Bins),50):
@@ -46,7 +46,7 @@ def rti_graph(radar_data,motion_data,pulse_start,motion_start,motion_end,pulse_e
     plt.plot([Range_Bins[1],Range_Bins[-1]], [pulse_end,pulse_end],c='g')
     plt.xlabel("Distance (m)")
     plt.ylabel("Pulse Number")
-    plt.imshow(np.flip(np.abs(Pulses),0),np.arange(0,len(Pulses),1/radar_data[1],np.extent=[Range_Bins[1],Range_Bins[len(Range_Bins)-1],1,len(Pulses)])
+    plt.imshow(np.flip(np.abs(Pulses),0),extent=[Range_Bins[1],Range_Bins[len(Range_Bins)-1],1,len(Pulses)])
     plt.axis('tight')
     plt.show()
 
