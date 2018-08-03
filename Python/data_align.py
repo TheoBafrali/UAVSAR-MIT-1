@@ -1,19 +1,21 @@
 '''
 Aligns RADAR and position  data
 
-@author: Mason
+@author: David + Mason
 '''
 #Import required  modules
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_point_last):
+def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_point_last, lefttrim, righttrim):
     '''
     Inputs: 
         radar_data: contains pulses, timestamps, and range bins
         motion_data: contains position data for a set of times
         radar_point_one, motion_point_one, motion_point_last: currently unused
+        lefttrim: leftmost pulse outputted in data
+        righttrim: rightmost pulse outputted in data
         
     Outputs: 
         Returns aligned data
@@ -21,13 +23,8 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_po
     Summary:
         RADAR data and motion data have different sampling rates (Motion: 360, RADAR: ?), so the data needs to be aligned
     '''
-    #Manual inputs for frames
-    #motion_point_one = 1844 
-    #motion_point_last = 5100
-    #radar_point_one = 260
-    
     #Takes relevant RADAR data
-    Pulses = radar_data[0][radar_point_one:2000]
+    Pulses = radar_data[0][radar_point_one:20000]
     radar_time = radar_data[1][radar_point_one-1:] - (radar_data[1][radar_point_one-1])
     starting_radar_time = radar_time[1]
     
@@ -46,6 +43,10 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_po
                 count += 1
                 iterated_radar_time += starting_radar_time
                 final_motion_list.append(new_motion_data[i])
+                
+    #Truncate data
+    final_motion_list = final_motion_list[lefttrim:righttrim]
+    Pulses = Pulses[lefttrim:righttrim ,:]
     Final = [Pulses,final_motion_list,len(final_motion_list)+radar_point_one]
     
     #Return outputs
