@@ -11,7 +11,7 @@
   * Read in motion data from .csv file
   
   ## Align data: ##
-  * Plot RTI graph using plotRTI() to estiate start RADAR data
+  * Plot RTI graph using plotRTI() to estimate start RADAR data
   * Plug in motion start and end frames from Step 1 and start RADAR data at frame from previous step
   * Run aligndata() with 0 and 3500 as initial inputs
   * Plot aligned data using AlignedGraph() 
