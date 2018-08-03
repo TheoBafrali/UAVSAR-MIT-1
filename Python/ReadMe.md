@@ -22,4 +22,4 @@ Workflow for processing and forming a SAR image:
     
   Deconvolute and plot:
   10. Run Richardson-Lucy deconvolution using deconvolute()
-      Plot images, and export data as an array for Ramu to use
+      Plot images, and export data as an array
