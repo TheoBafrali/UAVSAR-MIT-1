@@ -1,7 +1,7 @@
 '''
 Plots aligned graph
 
-@author: Mason
+@author: David + Mason
 '''
 
 #Import required modules
@@ -22,9 +22,9 @@ def AlignedGraph(aligned_data,radar_data):
     RangeBinDistance = Range_Bins[2]-Range_Bins[1]
     RangeBinX = []
     position = aligned_data[1]
-    
+    plt.figure(1)
     #Positions for each point
-    box_position = [[.746,.23229,-1.95548],[.942713,.227,1.019],[2.48,.1519,-.238],[2.648,.163,2.227]]
+    box_position = [[.746,.1,-1.95548],[.942713,.1,1.019],[2.48,.1,-.238],[2.648,.1,2.227]]
     for i in np.arange(0,len(Range_Bins),50):
         RangeBinX.append(round(i*RangeBinDistance+Range_Bins[0],2))
     distance = []
@@ -40,9 +40,11 @@ def AlignedGraph(aligned_data,radar_data):
     print(distance)
     plt.set_cmap('nipy_spectral')
     #plt.xticks(np.arange(0,len(Range_Bins),50),RangeBinX)
-#plt.yticks(np.arange(0,len(Pulses),1000),np.flip(np.arange(0,len(Pulses),1000),0))
+    #plt.yticks(np.arange(0,len(Pulses),1000),np.flip(np.arange(0,len(Pulses),1000),0))
+    plt.title('Aligned Range-Time Intensity')
     plt.xlabel("Distance (m)")
     plt.ylabel("Pulse Number")
-    plt.imshow(np.flip(np.abs(Pulses),0),extent=[Range_Bins[1],Range_Bins[len(Range_Bins)-1],1,len(Pulses)])
+    #plt.imshow(np.flip(np.abs(Pulses),0),extent=[Range_Bins[1],Range_Bins[len(Range_Bins)-1],1,len(Pulses)])
+    plt.imshow(np.flip(np.abs(Pulses[:,0:580]),0),extent=[Range_Bins[0],Range_Bins[-1],1,len(Pulses)])
     plt.axis('tight')
     plt.show()
