@@ -10,7 +10,7 @@ from pulson440_unpack import unpack
 from read_files import read_radar_data, read_motion_data
 from radar_movement import find_point_one_radar, find_i_of_first_motion, find_i_of_last_motion
 from data_align import align_data
-from AlignedRangeTimeGraph import AlignedGraph 
+from GeneralAlignedRangeTimeGraph import AlignedGraph 
 from FastLinInt import BackProjection
 from read_intensity import read_intensity
 from Deconvolution import deconvolute
