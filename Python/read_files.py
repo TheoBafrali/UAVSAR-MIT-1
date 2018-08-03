@@ -1,14 +1,12 @@
 '''
 This file is meant to read the data from the motion capture system, as well as from unpacked, pickle data from the PulsON 440 unpack script.
 
-@author: Mason
+@author: David + Mason
 '''
 
 #Import required modules
 import pandas as pd
 import pickle
-import numpy
-
 
 def read_motion_data(filename,rigid_body_name='Mason UAV-SAR 1'):
 
@@ -51,11 +49,12 @@ def read_motion_data(filename,rigid_body_name='Mason UAV-SAR 1'):
         final_data.append([x[i],y[i],z[i]])
     return final_data
 
-def read_radar_data(filename='../Raw_Data/data.pkl'):
-
+def read_radar_data(filename='data.pkl', trim = 700, rangeshift = 0.3):
     '''
     Inputs: 
         filename: name of .pkl containing RADAR data
+        trim: range bin at which to trim
+        rangeshift: shift in range in  RTI plot
     Outputs:
         data: restructured set of arrays containing scan data, time stamps, and range bins
     Summary:
@@ -69,9 +68,12 @@ def read_radar_data(filename='../Raw_Data/data.pkl'):
     scan_data = data['scan_data']
     range_bins = data['range_bins']
     
+    #Trims range bins and shifts range
+    range_bins = range_bins[0:trim-1]
+    range_bins = range_bins - rangeshift
+    scan_data = scan_data[: , 0:trim]
+    
     #Adding only the scan, time stamp, and range bin data to the final list
-    new_time_stamp = []
-
     start_time = time_stamp[0]
     for i in range(len(time_stamp)):
         time_stamp[i] = time_stamp[i]-start_time
