@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Scales Pulse data by RADAR cross section
-@author: dbli2
+@author: David
 """
+#Import required modules
 from read_files import read_radar_data
 import numpy as np
-radar_data = read_radar_data("../Raw_Data/UAVSAR4Flight1.pkl")
 
 def rcs(radar_data):
     '''
@@ -33,6 +33,3 @@ def rcs(radar_data):
     #Redefines corrected_radar_data
     corrected_radar_data = [corrected_pulses,time_stamp,range_bins]
     return corrected_radar_data
-
-newdata = rcs(radar_data)
->>>>>>> 805cb6e57fe60c6801d3c9e5ae33a805f133e7f7
