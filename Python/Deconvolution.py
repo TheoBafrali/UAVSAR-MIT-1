@@ -3,7 +3,7 @@
 Contains the deconvolute() function, which deconvolutes a backprojected image passed in as an intensity list using the Richardson-Lucy algorithm. 
 
 Created on Tue Jul 31 09:11:07 2018
-@author: dbli2000
+@author: David
 """
 #Import required modules
 import numpy as np
@@ -78,16 +78,23 @@ def deconvolute(IntensityList, IterationNumber = 30, PercentageMin = 1/5.5):
    
     # Restore image using Richardson-Lucy algorithm
     DefaultDeconvoluted = RichardsonLucy(IntensityList, psf, iterations=10, clip = False)
-    DeconvolutedIntensityList = RichardsonLucy(IntensityList, psf, iterations=IterationNumber, clip  = False)
+    DeconvolutedIntensityList = np.array(RichardsonLucy(IntensityList, psf, iterations=IterationNumber, clip  = False))
 
     #Plot deconvoluted images
     plt.set_cmap('jet')
     #Plot default deconvoluted image
-    plt.figure(2)
+    plt.figure(3)
+    plt.title('Deconvoluted Image, Iterations = 10')
     plt.imshow(DefaultDeconvoluted,vmin=DefaultDeconvoluted.max()*PercentageMin, vmax=DefaultDeconvoluted.max())
     plt.show()
     #Plot user deconvoluted image
-    plt.figure(3)
+    plt.figure(4)
+    plt.title('Deconvoluted Image, Iterations = ' + str(IterationNumber))
     plt.imshow(DeconvolutedIntensityList,vmin=DeconvolutedIntensityList.max()*PercentageMin, vmax=DeconvolutedIntensityList.max())
+    plt.show()
     #Returns intensity list with user inputted number of iterations
+    
+    #Thresholds values in  array and returns array
+    DeconvolutedIntensityList = np.select([DeconvolutedIntensityList < DeconvolutedIntensityList.max()*PercentageMin, DeconvolutedIntensityList >= DeconvolutedIntensityList.max()*PercentageMin], [0, DeconvolutedIntensityList])
+   
     return DeconvolutedIntensityList
