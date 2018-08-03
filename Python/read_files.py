@@ -7,7 +7,7 @@ This file is meant to read the data from the motion capture system, as well as f
 #Import required modules
 import pandas as pd
 import pickle
-
+import numpy as np
 def read_motion_data(filename,rigid_body_name='Mason UAV-SAR 1'):
 
     '''
@@ -25,8 +25,7 @@ def read_motion_data(filename,rigid_body_name='Mason UAV-SAR 1'):
     #Reads in .csv
     data = []
     path = '../Raw_Data/' + str(filename) #This is the path to the file
-    parsedData = pd.read_csv(path,low_memory=False,skiprows=3) #Reading the CSV file
-    
+    parsedData = pd.read_csv(path,low_memory=False,skiprows=3) #Reading the CSV file 
     #Only adding data for the desired marker
     for name in list(parsedData):
         #Determining if the parsed data is part of the rigid body
@@ -38,15 +37,20 @@ def read_motion_data(filename,rigid_body_name='Mason UAV-SAR 1'):
     x = []
     y = []
     z = []
+    time = np.array(parsedData["Unnamed: 1"][3:]).astype(float)
+
     for i in range(1,len(data[4])):
         x.append(float(data[4][i]))
     for i in range(1,len(data[5])):
         y.append(float(data[5][i]))
     for i in range(1,len(data[6])):
         z.append(float(data[6][i]))
+    pos_data = []
     final_data = []
     for i in range(len(x)):
-        final_data.append([x[i],y[i],z[i]])
+        pos_data.append([x[i],y[i],z[i]])
+    final_data.append(np.array(pos_data))
+    final_data.append(time)
     return final_data
 
 def read_radar_data(filename='data.pkl', trim = 700, rangeshift = 0.3):

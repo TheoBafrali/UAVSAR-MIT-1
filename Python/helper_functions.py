@@ -65,4 +65,4 @@ def linear_interp_nan(coords, data):
         data_out = np.transpose(data_out)
     
     # Return coordinates and data with NaN values replaced
-    return coords_out, data_out
+    return data_out

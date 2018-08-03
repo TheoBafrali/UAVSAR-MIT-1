@@ -30,7 +30,7 @@ def AlignedGraph(aligned_data,radar_data, box_position = [[.746,.1,-1.95548],[.9
         RangeBinX.append(round(i*RangeBinDistance+Range_Bins[0],2))
     distance = []
     total_distance = []
-    Pulses = Pulses[:len(position)]
+    Pulses = Pulses[:len(position)-1]
     for x in range(len(box_position)):
         for i in range(len(Pulses)):
             distance.append(math.sqrt((position[i][0]-box_position[x][0])**2+(position[i][1]-box_position[x][1])**2+(position[i][2]-box_position[x][2])**2))    

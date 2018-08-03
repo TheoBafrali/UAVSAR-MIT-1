@@ -30,13 +30,14 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     IntensityList = np.zeros(np.shape(x_pixel))
     PulseData = PulseData[0:len(RadarPosition)-1]
     RadarPosition = np.array(RadarPosition)
+    PulseData = np.array(PulseData)
     #print(RadarPosition)
     #print(PulseData)
     for i in range(len(PulseData)):
         squared = np.sqrt(np.square(x_pixel-RadarPosition[i][0])+np.square(y_pixel-RadarPosition[i][1])+np.square(RadarPosition[i][2]))
         if np.isnan(RadarPosition[i][0]):
             return "Wrong"
-        IntensityList += np.interp(squared,RangeBins,PulseData[i])        
+        IntensityList += np.interp(squared,RangeBins,PulseData[i,:])        
     
 
 
@@ -46,8 +47,17 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
 
     #IntensityList = np.flip(reshape(IntensityList, (ImageSizeY,ImageSizeX)),0) #Reshapes IntensityList to the right size
     #plt.imsave('LinIntBP.png',IntensityList)
+    plt.subplot(122)
     plt.set_cmap('jet')
-    logarithmic_intensity = 20*np.log10(IntensityList)
+    plt.title("Linear")
+    plt.imshow(IntensityList, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image
+    plt.axis('equal')
+    #plt.colorbar()
+
+    plt.show() #Shows the image in a new window for Mason
+    
+    plt.set_cmap('jet')
+    logarithmic_intensity = 20*np.log10(abs(IntensityList))
     max_log_intensity = max(logarithmic_intensity.flatten())
 
     plt.figure(1)
@@ -57,14 +67,6 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     plt.clim(max_log_intensity-20,max_log_intensity)
     plt.axis('equal')  
  
-    plt.subplot(122)
-    plt.set_cmap('jet')
-    plt.title("Linear")
-    plt.imshow(IntensityList, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image
-    plt.axis('equal')
-    #plt.colorbar()
-
-    plt.show() #Shows the image in a new window for Mason
     np.savetxt("intensity.csv", IntensityList, delimiter=",", fmt='%s')
 
     return IntensityList
