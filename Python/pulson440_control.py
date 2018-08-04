@@ -70,8 +70,8 @@ def main(args):
     radar.read_settings_file(parsed_args.input)
     
     # Connect to the radar
-    radar.connect()    
- 
+    radar.connect()
+    
     # Get current radar configuration
     radar.get_radar_config()
     
@@ -83,7 +83,6 @@ def main(args):
         radar.quick_look(parsed_args.output)
     elif parsed_args.collect:
         radar.collect(parsed_args.output)
-       # radar.livestream_connect()
     else:
         raise ValueError('unrecognized mode')
         exit()

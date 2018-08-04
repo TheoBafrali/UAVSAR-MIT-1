@@ -1,29 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Inputs: 
-    IntensityList: list of intensities reshaped into an array from backprojection
-    IterationNumber: User-inputted integer that is the number of iterations the Richardson-Lucy algorithm iterates through
-    PercentageMin: percentage, as a decimal, of the maximum intensity in your images that you want to use as the minimum cutoff
-     
-Outputs: 
-    Figure1: Image after deconvolution with iteration number 10
-    Figure2: Image after deconvolution with iteration number IterationNumber, a user input
-    DeconvolutedIntensityList: List of intensities reshaped into an array after deconvolution
-    
-Summary:
-    Uses the Richardson-Lucy algorithm to deconvolute the backprojected image, given as an array of intensities
-    
-Created on Tue Jul 31 09:11:07 2018
+Contains the deconvolute() function, which deconvolutes a backprojected image passed in as an intensity list using the Richardson-Lucy algorithm. 
 
-@author: dbli2000
+Created on Tue Jul 31 09:11:07 2018
+@author: David
 """
-import skimage
+#Import required modules
 import numpy as np
-import numpy.random as npr
 import matplotlib.pyplot as plt
 from scipy.signal import fftconvolve, convolve
-from scipy.signal import convolve2d as conv2
-import csv
 
 def RichardsonLucy(image, psf, iterations=50, clip=False):
     """
@@ -37,6 +22,9 @@ def RichardsonLucy(image, psf, iterations=50, clip=False):
                 under -1 are thresholded for skimage pipeline compatibility.
     Outputs: 
         im_deconv : deconvolved image
+        
+    Summary:
+        Performs the Richardson-Lucy algorithm
     """
     # compute the times for direct convolution and the fft method. The fft is of
     # complexity O(N log(N)) for each dimension and the direct method does
@@ -70,21 +58,43 @@ def RichardsonLucy(image, psf, iterations=50, clip=False):
     return im_deconv
 
 def deconvolute(IntensityList, IterationNumber = 30, PercentageMin = 1/5.5):
+    '''
+    Inputs: 
+        IntensityList: list of intensities reshaped into an array from backprojection
+        IterationNumber: User-inputted integer that is the number of iterations the Richardson-Lucy algorithm iterates through
+        PercentageMin: percentage, as a decimal, of the maximum intensity in your images that you want to use as the minimum cutoff
+     
+    Outputs: 
+        Figure1: Image after deconvolution with iteration number 10
+        Figure2: Image after deconvolution with iteration number IterationNumber, a user input
+        DeconvolutedIntensityList: List of intensities reshaped into an array after deconvolution
+    
+    Summary:
+        Uses the Richardson-Lucy algorithm to deconvolute the backprojected image, given as an array of intensities
+    '''
+    
     #Define point spread function
     psf = np.array([[1/37, 1/37, 1/37,1/37 ,1/37], [1/37, 2/37, 2/37, 2/37 ,1/37], [1/37, 2/37, 5/37, 2/37 ,1/37], [1/37, 2/37, 2/37, 2/37 ,1/37], [1/37, 1/37, 1/37, 1/37 ,1/37]])  
    
     # Restore image using Richardson-Lucy algorithm
     DefaultDeconvoluted = RichardsonLucy(IntensityList, psf, iterations=10, clip = False)
-    DeconvolutedIntensityList = RichardsonLucy(IntensityList, psf, iterations=IterationNumber, clip  = False)
+    DeconvolutedIntensityList = np.array(RichardsonLucy(IntensityList, psf, iterations=IterationNumber, clip  = False))
 
     #Plot deconvoluted images
     plt.set_cmap('jet')
     #Plot default deconvoluted image
-    plt.figure(2)
-    plt.imshow(DefaultDeconvoluted,vmin=DefaultDeconvoluted.max()*PercentageMin, vmax=DefaultDeconvoluted.max())
-    #Plot user deconvoluted image
     plt.figure(3)
+    plt.title('Deconvoluted Image, Iterations = 10')
+    plt.imshow(DefaultDeconvoluted,vmin=DefaultDeconvoluted.max()*PercentageMin, vmax=DefaultDeconvoluted.max())
+    plt.show()
+    #Plot user deconvoluted image
+    plt.figure(4)
+    plt.title('Deconvoluted Image, Iterations = ' + str(IterationNumber))
     plt.imshow(DeconvolutedIntensityList,vmin=DeconvolutedIntensityList.max()*PercentageMin, vmax=DeconvolutedIntensityList.max())
     plt.show()
     #Returns intensity list with user inputted number of iterations
+    
+    #Thresholds values in  array and returns array
+    DeconvolutedIntensityList = np.select([DeconvolutedIntensityList < DeconvolutedIntensityList.max()*PercentageMin, DeconvolutedIntensityList >= DeconvolutedIntensityList.max()*PercentageMin], [0, DeconvolutedIntensityList])
+   
     return DeconvolutedIntensityList
