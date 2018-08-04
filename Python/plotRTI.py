@@ -4,7 +4,7 @@ Plots the RTI graphs for some RADAR data
 
 @author: David
 """
-
+#Import required modules
 import numpy as np
 import matplotlib.pyplot as plt
 
