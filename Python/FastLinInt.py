@@ -9,7 +9,7 @@ import numpy as np
 from numpy import real, arange, reshape
 
 def FastBackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
-     '''
+    '''
     Inputs:
         aligned_data: Properly aligned_data
         radar_data: RADAR data
