@@ -81,13 +81,13 @@ def BackProjection(aligned_data,radar_data,LeftInterval,RightInterval,StepSize):
     plt.title("Logaritmic")
     plt.imshow(logarithmic_intensity, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image 
     plt.clim(max_log_intensity-20,max_log_intensity)
-    plt.axis('equal')
+    #plt.axis('equal')
     
     plt.subplot(122)
     plt.set_cmap('jet')
     plt.title("Linear")
     plt.imshow(IntensityList, extent = (LeftInterval[0], RightInterval[0], LeftInterval[1], RightInterval[1])) #Plots the image
-    plt.axis('equal')
+    #plt.axis('equal')
     #plt.colorbar()
 
     plt.show() #Shows the image in a new window for Mason
