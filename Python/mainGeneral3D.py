@@ -8,6 +8,7 @@ aligns data, calculates backprojected image, deconvolutes image, and plots.
 from pulson440_unpack import unpack 
 from read_files import read_radar_data, read_motion_data
 from rcs import rcs
+from interp_data_align import interp_align_data
 from data_align import align_data
 from GeneralAlignedRangeTimeGraph import AlignedGraph 
 from FastLinInt import FastBackProjection
@@ -38,7 +39,7 @@ motion_start = 6000 #6600
 motion_end = 30000 #29545
 
 #Aligns data
-aligned_data = align_data(radar_data,motion_data,radar_start,motion_start, motion_end, 100, 3500) #100, 3500
+aligned_data = interp_align_data(radar_data,motion_data,radar_start,motion_start, motion_end, 100, 3500) #100, 3500
 
 #Plots aligned graph with known data point
 AlignedGraph(aligned_data,radar_data, [[.942713,.1,1.019]])

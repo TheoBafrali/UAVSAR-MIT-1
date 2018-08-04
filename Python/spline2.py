@@ -15,49 +15,38 @@ import numpy as np
 
 def interp_3(motion_data):
     a = len(motion_data)*(1000/360)
+    time = []
     
-
-    x = []
     for i in range(len(motion_data)):
-        time1 = (1/360)*1000 #360 hertz to milliseconds
-        x.append(time1*i)
-    xnew = np.arange(0, a, 1)
-
-    xx = []
-    for ii in motion_data:
-        xx.append(ii[0])
-
-#y = np.exp(-x/3.0)
-    f = interpolate.CubicSpline(x, xx)
-
-    xxnew = f(xnew)   # use interpolation function returned by `interp1d`
-#    plt.plot(x, xx, 'b--', xnew, xxnew, 'r--')
-#    plt.show()
-
+        time.append((1/360)*1000*i) #Hz to Milliseconds
+    resolution = np.arange(0, a, 1)
+    
+    x = []
+    for i in motion_data:
+        x.append(i[0])
+    x_function = interpolate.CubicSpline(time, x)
+    x_interp = x_function(resolution)   # use interpolation function returned by `interp1d`
+    
     y = []
-    for ii in motion_data:
-        y.append(ii[0])
-
-#y = np.exp(-x/3.0)
-    f1 = interpolate.CubicSpline(x, xx)
-
-  
-    ynew = f1(xnew)   # use interpolation function returned by `interp1d`
-#    plt.plot(x, y, 'g^', xnew, ynew, 'o')
-#    plt.show()
-
+    for i in motion_data:
+        y.append(i[1])
+    y_function = interpolate.CubicSpline(time, y)
+    y_interp = y_function(resolution)   # use interpolation function returned by `interp1d`
+    
     z = []
-    for ii in motion_data:
-        z.append(ii[0])
-
-#y = np.exp(-x/3.0)
-    f2 = interpolate.CubicSpline(x, z)
-
-  
-    znew = f2(xnew)   # use interpolation function returned by `interp1d`
-#    plt.plot(x, xx, 'r^', xnew, znew, 'p--')
-#    plt.show()
-    final_motion_list = [xnew, ynew, znew]
+    for i in motion_data:
+        z.append(i[2])
+    z_function  = interpolate.CubicSpline(time, z)
+    z_interp = z_function(resolution)   # use interpolation function returned by `interp1
+    
+    final_motion_list = []
+    for i in range(len(x_interp)):
+        final_motion_list.append([x_interp[i],y_interp[i],z_interp[i]])
+    
+    print('lengths')
+    print(len(motion_data))
+    print(len(final_motion_list))
+    
     return final_motion_list
 
 

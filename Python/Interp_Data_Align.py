@@ -1,5 +1,6 @@
 '''
 Aligns RADAR and position  data
+
 @author: David + Mason
 '''
 #Import required  modules
@@ -7,7 +8,8 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from spline2 import interp_3
-def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_point_last, lefttrim, righttrim):
+def interp_align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_point_last, lefttrim, righttrim):
+   
     '''
     Inputs: 
         radar_data: contains pulses, timestamps, and range bins
@@ -22,6 +24,7 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_po
     Summary:
         RADAR data and motion data have different sampling rates (Motion: 360, RADAR: ?), so the data needs to be aligned
     '''
+    
     #Takes relevant RADAR data
     Pulses = radar_data[0][radar_point_one:]
     radar_time = radar_data[1][radar_point_one-1:] - (radar_data[1][radar_point_one-1])
@@ -29,27 +32,32 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_po
     
     #Takes relevant motion data
     new_motion_data = motion_data[motion_point_one:motion_point_last] 
-    new_motion_data = interp_3(new_motion_data)
-    motion_time = range(0,len(new_motion_data))
+    print(new_motion_data[:100])
+    new_motion_data = np.array(interp_3(new_motion_data))
+    print("new stuff:")
+    print(new_motion_data[:100])
+    motion_time = range(0,len(new_motion_data)) 
     
     #Calculates aligned data
     iterated_radar_time = starting_radar_time
     final_motion_list = []
     count = 0
+    
     for i in range(len(motion_time)):
             if radar_time[count] <= motion_time[i]:
                 count += 1
                 iterated_radar_time += starting_radar_time
                 final_motion_list.append(new_motion_data[i])
-                
+    print(len(final_motion_list))
+    print("Length of Final Motion List ^")            
     #Truncate data
     final_motion_list = final_motion_list[lefttrim:righttrim]
     Pulses = Pulses[lefttrim:righttrim ,:]
     Final = [Pulses,final_motion_list,len(final_motion_list)+radar_point_one]
     
     #Return outputs
-    print(len(Pulses))
-    print(len(final_motion_list))
+    #print(len(Pulses))
+    #print(len(final_motion_list))
     #print(final_motion_list)
     return Final
 

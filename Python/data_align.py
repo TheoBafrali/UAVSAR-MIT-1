@@ -7,7 +7,7 @@ Aligns RADAR and position  data
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-
+from spline2 import interp_3
 def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_point_last, lefttrim, righttrim):
     '''
     Inputs: 
@@ -32,7 +32,7 @@ def align_data(radar_data,motion_data,radar_point_one,motion_point_one,motion_po
     new_motion_data = motion_data[motion_point_one:motion_point_last] 
     motion_time = []
     for i in range(len(new_motion_data)):
-        motion_time.append(1000*i*1/360)  
+        motion_time.append(1/360*1000*i)  
     
     #Calculates aligned data
     iterated_radar_time = starting_radar_time
