@@ -84,4 +84,3 @@ def read_radar_data(filename='data.pkl', trim = 700, rangeshift = 0.3):
 
     data = [scan_data,time_stamp,range_bins]
     return data
-
