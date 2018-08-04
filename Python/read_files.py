@@ -1,6 +1,5 @@
 '''
 This file is meant to read the data from the motion capture system, as well as from unpacked, pickle data from the PulsON 440 unpack script.
-
 @author: David + Mason
 '''
 
