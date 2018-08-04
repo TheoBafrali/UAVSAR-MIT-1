@@ -7,13 +7,13 @@ Created on Sat Aug  4 08:13:53 2018
 """
 import matplotlib.pyplot as plt
 from scipy import interpolate
-from Unpack import unpack
-from read_files import read_motion_data
+#from Unpack import unpack
+#from read_files import read_motion_data
 import numpy as np
 
-motion_data = read_motion_data("../Raw_Data/MC-RailSAR2.csv")
+#motion_data = read_motion_data("../Raw_Data/MC-RailSAR2.csv")
 
-def interp(motion_data):
+def interp_3(motion_data):
     a = len(motion_data)*(1000/360)
     
 
@@ -31,8 +31,8 @@ def interp(motion_data):
     f = interpolate.CubicSpline(x, xx)
 
     xxnew = f(xnew)   # use interpolation function returned by `interp1d`
-    plt.plot(x, xx, 'b--', xnew, xxnew, 'r--')
-    plt.show()
+#    plt.plot(x, xx, 'b--', xnew, xxnew, 'r--')
+#    plt.show()
 
     y = []
     for ii in motion_data:
@@ -43,8 +43,8 @@ def interp(motion_data):
 
   
     ynew = f1(xnew)   # use interpolation function returned by `interp1d`
-    plt.plot(x, y, 'g^', xnew, ynew, 'o')
-    plt.show()
+#    plt.plot(x, y, 'g^', xnew, ynew, 'o')
+#    plt.show()
 
     z = []
     for ii in motion_data:
@@ -55,6 +55,9 @@ def interp(motion_data):
 
   
     znew = f2(xnew)   # use interpolation function returned by `interp1d`
-    plt.plot(x, xx, 'r^', xnew, znew, 'p--')
-    plt.show()
-print (interp(motion_data))
+#    plt.plot(x, xx, 'r^', xnew, znew, 'p--')
+#    plt.show()
+    final_motion_list = [xnew, ynew, znew]
+    return final_motion_list
+
+
